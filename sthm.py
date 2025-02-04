@@ -105,4 +105,5 @@ if __name__ == "__main__":
     bs = BlaustahlSRWP()
     ascii_data = bs.read_fram(0, 7600).decode('ascii')
     print(ascii_data)
-    
+
+
