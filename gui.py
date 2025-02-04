@@ -13,7 +13,9 @@ class PasswordSelector:
         self.password_states = {i: False for i in range(len(self.passwords))}
         
         self.create_table()
-
+        self.root.focus_force()
+        self.tree.focus_force()
+        self.tree.focus_set()
     def read_stored_passwords(self):
         # Run read.py and capture its output
         result = subprocess.run(['python3', 'read.py'], capture_output=True, text=True)
@@ -53,15 +55,25 @@ class PasswordSelector:
                 item['note'],
                 item['username'],
                 '*' * len(item['password']),
-                '👁️'
+                'show'
             ))
 
-        self.tree.bind('<ButtonRelease-1>', self.handle_click)
+        if self.tree.get_children():
+            first_item = self.tree.get_children()[0]
+            self.tree.selection_set(first_item)
+            self.tree.focus(first_item)
 
         scrollbar = ttk.Scrollbar(table_frame, orient=tk.VERTICAL, command=self.tree.yview)
+
+        self.tree.bind('<ButtonRelease-1>', self.handle_click)
         self.tree.configure(yscrollcommand=scrollbar.set)
         self.tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        if self.tree.get_children():
+            first_item = self.tree.get_children()[0]
+            self.tree.selection_set(first_item)
+            self.tree.focus(first_item)
 
         self.show_all_state = False
         show_all_btn = ttk.Button(main_frame, text="Show All Passwords", command=self.toggle_all_passwords)
@@ -86,7 +98,7 @@ class PasswordSelector:
             self.passwords[index]['note'],
             self.passwords[index]['username'],
             password_display,
-            '👁️'
+            'show'
         ))
 
     def toggle_all_passwords(self):
@@ -107,3 +119,4 @@ class PasswordSelector:
 if __name__ == "__main__":
     app = PasswordSelector()
     app.run()
+    self.root.focus_force()
