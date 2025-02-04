@@ -106,5 +106,3 @@ if __name__ == "__main__":
     ascii_data = bs.read_fram(0, 7600).decode('ascii')
     print(ascii_data)
     
-    # Now ascii_data contains your 7600 bytes as a string
-    # You can process ascii_data further here
