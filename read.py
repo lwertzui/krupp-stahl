@@ -98,8 +98,6 @@ class BlaustahlSRWP:
             data.extend(chunk)
         return bytes(data)
 
-#!/usr/bin/env python3
-
 # Main program
 if __name__ == "__main__":
     bs = BlaustahlSRWP()
