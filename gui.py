@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import tkinter as tk
 from tkinter import ttk
 import subprocess
@@ -17,8 +18,12 @@ class PasswordSelector:
         self.tree.focus_force()
         self.tree.focus_set()
     def read_stored_passwords(self):
-        # Run read.py and capture its output
-        result = subprocess.run(['python3', 'read.py'], capture_output=True, text=True)
+        # Get the directory where gui.py is located
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        read_script = os.path.join(script_dir, 'read.py')
+        
+        # Run read.py with absolute path and capture its output
+        result = subprocess.run(['python3', read_script], capture_output=True, text=True)
         output = result.stdout
         entries = []
         segments = output.split('||')
@@ -31,7 +36,6 @@ class PasswordSelector:
                     "password": parts[2].strip()
                 })
         return entries if entries else []
-
     def create_table(self):
         main_frame = ttk.Frame(self.root)
         main_frame.pack(fill=tk.BOTH, expand=True)
